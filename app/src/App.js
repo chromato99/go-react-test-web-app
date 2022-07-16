@@ -44,7 +44,7 @@ class App extends React.Component {
   render() {
     const { isLogin } = this.state;
     return (
-      <div className='App'>
+      <div>
         {isLogin ? ( // check login for render page
           <MainPgae
             logoutHandler={this.logoutHandler}

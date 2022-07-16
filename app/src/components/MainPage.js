@@ -1,5 +1,4 @@
 import '../App.css';
-import logo from '../logo.svg';
 import React from "react";
 import axios from 'axios';
 
@@ -24,11 +23,13 @@ class MainPage extends React.Component {
     return this.props.userData == null ? (
         <div>Loading...</div>
     ) : (
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <h1>Main Page!!</h1>
-        <button onClick={this.hadleLogout}>Logout</button>
-      </header>
+      <div>
+        <h1 className='App-title'>Sharpic</h1>
+        <div className='App-center'>
+          <h2>Main Page!!</h2>
+          <button onClick={this.hadleLogout}>Logout</button>
+        </div>
+      </div>
     );
   }
 }

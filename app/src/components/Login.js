@@ -1,5 +1,4 @@
 import '../App.css';
-import logo from '../logo.svg';
 import React from "react";
 import axios from 'axios';
 
@@ -49,8 +48,8 @@ class Login extends React.Component {
 
   render() {
     return (
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+      <div className="App-center">
+        <h1>Sharpic</h1>
         <div>
           <input
             id="username"
@@ -71,7 +70,7 @@ class Login extends React.Component {
             Login
           </button>
         </div>
-      </header>
+      </div>
     );
   }
 }
