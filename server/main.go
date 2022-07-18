@@ -9,7 +9,7 @@ import (
 func main() {
 	router := gin.Default()
 
-	router.Use(static.Serve("/", static.LocalFile("./app/build", true)))
+	router.Use(static.Serve("/", static.LocalFile("/app/build", true)))
 
 	userApi := router.Group("/user")
 	{
