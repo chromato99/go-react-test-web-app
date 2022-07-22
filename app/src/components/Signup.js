@@ -2,26 +2,33 @@ import '../App.css';
 import React from "react";
 import axios from 'axios';
 
-class Login extends React.Component {
+class Signup extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       username: '',
       password: '',
+      repassword: '',
+      signupState: '',
     };
     this.inputHandler = this.inputHandler.bind(this);
-    this.loginRequestHandler = this.loginRequestHandler.bind(this);
+    this.signupStateHandler = this.signupStateHandler.bind(this);
+    this.signupRequestHandler = this.signupRequestHandler.bind(this);
   }
 
   inputHandler(e) {  // hanling input of username and password
     this.setState({ [e.target.name]: e.target.value });
   }
 
-  loginRequestHandler() {
+  signupStateHandler(s) {
+    this.setState({signupState: s});
+  }
 
-    axios
+  signupRequestHandler() {
+    if (this.state.password === this.state.repassword) {
+      axios
       .post( // Login request
-        'http://localhost:8005/user/login',
+        'http://localhost:8005/user/signup',
         {
           username: this.state.username,
           password: this.state.password,
@@ -29,27 +36,25 @@ class Login extends React.Component {
         { 'Content-Type': 'application/json', withCredentials: true }
       )
       .then((res) => {
-        this.props.loginHandler(true);
-        // get user info
-        return axios.get('http://localhost:8005/user', {
-          withCredentials: true,
-        });
-      })
-      .then((res) => {
         console.log(res.data)
-        let { username, email } = res.data;
-        this.props.setUserInfo({ // set user info
-          username: username,
-          email: email,
-        });
+        if (res.data.state === 'OK') {
+            this.props.signupHandler(true);
+        } else {
+          this.signupStateHandler(res.data.state);
+        }
       })
       .catch((err) => alert(err));
+    } else {
+      this.signupStateHandler('Password is not same');
+    }
+    
   }
 
   render() {
     return (
       <div className="App-center">
-        <h1>Sharpic</h1>
+        <h1>Signup Sharpic</h1>
+        <h3>{this.state.signupState}</h3>
         <div>
           <input
             id="username"
@@ -66,9 +71,16 @@ class Login extends React.Component {
             onChange={(e) => this.inputHandler(e)}
             value={this.state.password}
             /><br></br>
-          <button onClick={this.props.signupHandler} className='signupBtn'>Signup</button>
-          <button onClick={this.loginRequestHandler} className='loginBtn'>
-            Login
+            <input 
+            id="repassword"
+            name="repassword"
+            type="repassword"
+            placeholder="Re-Password"
+            onChange={(e) => this.inputHandler(e)}
+            value={this.state.repassword}
+            /><br></br>
+          <button onClick={this.signupRequestHandler} className='signupBtn'>
+            Signup
           </button>
         </div>
       </div>
@@ -76,4 +88,4 @@ class Login extends React.Component {
   }
 }
 
-export default Login;
+export default Signup;
